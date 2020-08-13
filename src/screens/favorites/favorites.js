@@ -1,14 +1,16 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, ScrollView} from 'react-native';
 import s from './styles';
-import {Header} from '../../components';
+import {Header, Teacher} from '../../components';
 
 const Favorites = () => {
   return (
     <View style={s.container}>
-      <Header title={'Meus Proffys favoritos'} />
-
-      <Text>Tudo bem</Text>
+      <ScrollView>
+        <Header title={'Meus Proffys favoritos'} />
+        <View style={s.scroll}>{/* <Teacher />
+        <Teacher /> */}</View>
+      </ScrollView>
     </View>
   );
 };

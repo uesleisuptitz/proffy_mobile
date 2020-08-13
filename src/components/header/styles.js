@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
     maxWidth: 160,
     marginVertical: 20,
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 });
 
 export default styles;

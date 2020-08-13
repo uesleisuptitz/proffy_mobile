@@ -1,10 +1,17 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Image} from 'react-native';
 import s from './styles';
 import {IMAGES, ICONS} from '../../assets';
 import {RectButton} from 'react-native-gesture-handler';
+import {api} from '../../services';
 
 const Landing = ({navigation}) => {
+  const [connections, setConnections] = useState(0);
+
+  useEffect(() => {
+    api.get('/connections').then(({data}) => setConnections(data.total));
+  }, [navigation]);
+
   return (
     <View style={s.container}>
       <Image source={IMAGES.landing} style={s.banner} />
@@ -27,7 +34,8 @@ const Landing = ({navigation}) => {
         </RectButton>
       </View>
       <Text style={[s.totalConnections]}>
-        Total de 200 conexões {'\n'}já realizadas <Image source={ICONS.heart} />
+        Total de {connections} conexões {'\n'}já realizadas{' '}
+        <Image source={ICONS.heart} />
       </Text>
     </View>
   );

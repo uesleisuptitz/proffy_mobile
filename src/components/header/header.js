@@ -5,7 +5,7 @@ import {BorderlessButton} from 'react-native-gesture-handler';
 import {ICONS, IMAGES} from '../../assets';
 import {useNavigation} from '@react-navigation/native';
 
-const Header = ({title}) => {
+const Header = ({title, children, right}) => {
   const {navigate} = useNavigation();
   return (
     <View style={s.container}>
@@ -15,7 +15,11 @@ const Header = ({title}) => {
         </BorderlessButton>
         <Image source={IMAGES.logo} resizeMode="contain" />
       </View>
-      <Text style={s.title}>{title}</Text>
+      <View style={s.header}>
+        <Text style={s.title}>{title}</Text>
+        {right}
+      </View>
+      {children}
     </View>
   );
 };
