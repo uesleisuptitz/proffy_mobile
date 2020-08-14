@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, Image, Linking} from 'react-native';
 import s from './styles';
 import {RectButton} from 'react-native-gesture-handler';
@@ -6,15 +6,27 @@ import {ICONS} from '../../assets';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const Teacher = ({teacher, favorited}) => {
-  const {avatar, bio, cost, name, subject, whatsapp} = teacher;
+  const {avatar, bio, cost, name, subject, whatsapp, id} = teacher;
+
+  const [Favorited, setFavorited] = useState(favorited);
 
   const linkWhatsApp = () =>
     Linking.openURL(`whatsapp://send?phone=${whatsapp}`);
 
-  const favorite = () => {
-    AsyncStorage.getItem('favorites').then((value) => {
-      console.log('value', value);
+  const favorite = async () => {
+    let favoriteds = [];
+    await AsyncStorage.getItem('favorites').then((resp) => {
+      if (resp) favoriteds = [...JSON.parse(resp)];
     });
+    if (Favorited) {
+      let favIndex = favoriteds.findIndex((fav) => fav.id === id);
+      favoriteds.splice(favIndex, 1);
+      setFavorited(false);
+    } else {
+      favoriteds.push(teacher);
+      setFavorited(true);
+    }
+    await AsyncStorage.setItem('favorites', JSON.stringify(favoriteds));
   };
 
   return (
@@ -34,10 +46,13 @@ const Teacher = ({teacher, favorited}) => {
         </Text>
         <View style={s.buttonsContainer}>
           <RectButton
-            style={[s.favoriteButton, s.favorited]}
+            style={[s.favoriteButton, Favorited ? s.favorited : null]}
             onPress={favorite}>
-            {/* <Image source={ICONS.heartOutline} /> */}
-            <Image source={ICONS.unfavorite} />
+            {Favorited ? (
+              <Image source={ICONS.unfavorite} />
+            ) : (
+              <Image source={ICONS.heartOutline} />
+            )}
           </RectButton>
           <RectButton style={s.contactButton} onPress={linkWhatsApp}>
             <Image source={ICONS.whatsapp} />

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {View, ScrollView, Text, TextInput, Image} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import s from './styles';
@@ -7,21 +7,18 @@ import {ICONS} from '../../assets';
 import {BorderlessButton, RectButton} from 'react-native-gesture-handler';
 import {api} from '../../services';
 
-const TeacherList = (props) => {
+const TeacherList = () => {
   const [showFilters, setShowFilters] = useState(false);
-  const [subject, setSubject] = useState(false);
-  const [week_day, setWeek_day] = useState(false);
-  const [time, setTime] = useState(false);
+  const [subject, setSubject] = useState('Ciência');
+  const [week_day, setWeek_day] = useState('0');
+  const [time, setTime] = useState('7:00');
   const [proffys, setProffys] = useState([]);
   const [favorites, setFavorites] = useState([]);
 
-  useEffect(() => {
-    AsyncStorage.getItem('favorites').then((value) => {
-      if (value !== null) setFavorites(JSON.parse(value.map((v) => v.id)));
-    });
-  }, []);
-
   const filterSubmit = async () => {
+    AsyncStorage.getItem('favorites').then((value) => {
+      if (value !== null) setFavorites(JSON.parse(value).map((v) => v.id));
+    });
     let params = {
       subject: subject.trim(),
       week_day: Number(week_day),

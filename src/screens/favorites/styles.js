@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
   },
   scroll: {
     marginTop: -20,
+    paddingHorizontal: 20,
   },
 });
 
