@@ -4,14 +4,17 @@ import s from './styles';
 import {RectButton} from 'react-native-gesture-handler';
 import {ICONS} from '../../assets';
 import AsyncStorage from '@react-native-community/async-storage';
+import {api} from '../../services';
 
 const Teacher = ({teacher, favorited}) => {
   const {avatar, bio, cost, name, subject, whatsapp, id} = teacher;
 
   const [Favorited, setFavorited] = useState(favorited);
 
-  const linkWhatsApp = () =>
+  const linkWhatsApp = () => {
+    api.post(`connections`, {user_id: id});
     Linking.openURL(`whatsapp://send?phone=${whatsapp}`);
+  };
 
   const favorite = async () => {
     let favoriteds = [];

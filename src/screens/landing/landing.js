@@ -9,7 +9,9 @@ const Landing = ({navigation}) => {
   const [connections, setConnections] = useState(0);
 
   useEffect(() => {
-    api.get('/connections').then(({data}) => setConnections(data.total));
+    api.get('/connections').then(({data}) => {
+      setConnections(data.total);
+    });
   }, [navigation]);
 
   return (

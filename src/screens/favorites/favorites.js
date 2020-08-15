@@ -8,7 +8,6 @@ const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
 
   useEffect(() => {
-    console.log('CALL');
     AsyncStorage.getItem('favorites').then((value) => {
       if (value !== null) setFavorites(JSON.parse(value).map((v) => v));
     });
